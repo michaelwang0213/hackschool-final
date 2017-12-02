@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BruinPlay Home</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/javascript/script.js"></script>
+	<style type="text/css">
+		body {background-color: #F0F0F0;
+			font-family: sans-serif;
+			margin: 0;
+			padding: 0;}
+
+		#overlay {
+		    position: fixed;
+		    z-index: 100;
+		    height: 100%;
+		    width: 100%;
+		    top: 0;
+		    left: 0;
+		    background-color: rgba(0,0,0,0.7);
+		    display: none;
+		}
+
+		#overlay #box {
+		    position: fixed;
+		    z-index: 101;
+		    height: 500px;
+		    width: 600px;
+		    left: 50%;
+		    top: 50%;
+		    margin-left: -300px;
+		    margin-top: -300px;
+		    background-color: #FAFAFA;
+		    border: 1px solid #EAEAEA;
+		    box-shadow: 0px 0px 6px #333;
+		}
+
+		#overlay #box h2 {
+		    text-align: center;
+		}
+
+		#overlay #box form {
+		    position: relative;
+		    width: 350px;
+		    margin: auto;
+		}
+
+		#overlay #box form input[type=text] {
+		    width: 100%;
+		    height: 30px;
+		    font-family: 'Roboto', 'Helvetica Neue', 'Helvetica', sans-serif;
+		    font-size: 1.1em;
+		    padding: 0px 5px;
+		    margin-bottom: 20px;
+		}
+
+		#overlay #box form input[type=file] {
+		    width: 100%;
+		    height: 30px;
+		    padding: 0px 5px;
+		    margin-bottom: 20px;
+		}
+
+		#overlay #box span{
+			margin-left: 5px;
+		}
+
+		#container { width: 70%;
+			margin: auto; }
+
+		#header {background-color: #3D3C3A;
+			position: fixed;
+			width: 100%;
+			height: 60px;
+			z-index: 101;
+			}
+
+		#header #left {background-color: blue;
+			padding: 0px 20px 1px 20px;
+  			height: 100%;
+    		float: left;
+			}
+
+
+    	#header #rightright {padding: 0px 20px 3px 20px;
+   		 	height: 100%;
+    		float: right;
+    		color: #C0C0C0;
+    		font-size: 18px}
+
+    	#header #rightright:hover {
+    		background-color: grey;
+    		color: white;
+    	}
+
+    	#holder {background-color: white;
+    		width: 70%;
+    		margin: auto;
+    		padding-top: 70px;
+    		color: black;}
+
+    	#main {
+    		padding: 10px 20px 10px 20px;
+    	}
+
+    	#main h4 {
+    		color: #404040;
+    		margin-bottom: 0;
+    	}
+
+    	#main #subtitle {
+    		color: #C0C0C0;
+    		font-size: 12px;
+    	}
+
+    	#cards{
+			width: 100%;
+			overflow: hidden;
+		}
+
+    	.card{
+			width: 200px;
+			height: 350px;
+			background-color: #3D3C3A;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			margin-bottom: 25px;
+			margin-right: 25px;
+			float: left;
+			overflow: hidden;
+		}
+
+		.card.selected {
+			background-color: blue;
+		}
+
+		.card.not-selected {
+
+		}
+
+		.card .cardimg{
+			width: 200px;
+			height: 200px;
+			background-size: 200px 200px;
+
+		}
+
+		.card .cardimg .overlay{
+			height: 100%;
+			width: 100%;
+			opacity: 0;
+			transition: .3s ease;
+			background-color: black;
+			text-align: center;
+			vertical-align: middle;
+			line-height: 200px;
+		}
+
+		.cardimg:hover .overlay{
+			opacity: .7;
+		}
+
+		.overlay .overlay-text{
+			height: 100%;
+			width: 100%;
+			text-align: center;
+			color: white;
+			font-size: 20px;
+			margin:0;
+			padding: 0;
+		}
+
+		.card h2 {
+			padding-left: 10px;
+			color: white;
+			font-size: 14px;
+		}
+
+		.card p {
+			padding-left: 10px;
+			color: #C0C0C0;
+			font-size: 10px;
+		}
+
+		.card .play img{
+			margin-left: 10px;
+			height: 20px;
+			width: auto;
+			opacity: 0.7;
+			float: left;
+		}
+
+		.card .play img:hover{
+			opacity: 1;
+		}
+
+		.card .watched{
+			visibility: visible;
+		}
+
+		.card .watched.true{
+			visibility: visible;
+		}
+
+		.card .watched img{
+			margin-left: 5px;
+			height: 20px;
+			width: auto;
+			float: left;
+		}
+
+
+		.trash img{
+			float: right;
+			margin-right:10px;
+			height: 20px;
+			width: auto;
+			opacity: 0.7;
+		}
+
+		.trash img:hover{
+			opacity: 1;
+		}
+
+		.card .audiocontrols{
+			margin-top: 10px;
+		}
+
+
+    	footer{
+    		min-height: 70px;
+			padding: 10px;
+			color: white;
+			background-color: #404040;
+			text-align: center;
+		}
+
+		.info-pane {
+			height: 100px;
+			width: 100%;
+			background: #404040;
+			margin: 0px;
+			padding: 0px;
+			position: fixed;
+			bottom: 0;
+			/*border-style: solid:
+			border-width: 1px;
+			border-color: blue;*/
+		}
+
+		.info-pane .preview-image {
+			height: 100px;
+			width: 100px;
+			background: blue;
+			background-size: cover;
+			margin-right: 20px;
+			float: left;
+		}
+
+		.info-pane .preview-text {
+			color: white;
+		}
+
+		
+	</style>
+</head>
+
+<body>
+
+	<div id="overlay">
+            <div id="box">
+                <h2>Add a Song</h2>
+                <form id="addsong" method="POST" action="/songs/add">
+                    <input type="text" id="addsong_title" name="title" placeholder="Title..." />
+
+                    <input type="text" id="addartist_name" name="artistName" placeholder="Artist..." />
+
+                    <input type="text" id="addalbum_name" name="albumName" placeholder="Album..." />
+
+                    <span>Add album cover</span>
+                    <input type="file" id="addalbumcover_src" name="albumCoverSrc" value="Album Cover..." />
+
+                    <span>Add audio source</span>
+                    <input type="file" id="addaudio_src" name="audioSrc" value="Audio Source..." />
+
+                    <span>Add song cover</span>
+                    <input type="file" id="addimage_src" name="audioImageSrc" value="Image Source..." />
+
+                    <input type="submit" value="Add Song" />
+                    <input type="button" value="Clear" onClick="clearForm()" />
+                    <input type="button" value="Close" onClick="setOverlayDisplay(false)" />
+                </form>
+            </div>
+    </div>
+
+
+	<div id = "header">
+		<div id = "container">
+			<div id="left"><h3><font color = "white">Bruin</font>
+							   <font color = "yellow">Play</h3></font>
+			</div>
+        	<!--<div id="right"><p>Hack School Library</p></div>-->
+        	<div id="rightright" onClick="setOverlayDisplay(true)">
+        		<p>+ Add Song</p>
+        	</div>
+        </div>
+	</div>
+
+	<div id = "holder">
+		<div id = "main">
+			<h4>My Hack School Library</h4>
+			<hr>
+			<p id="subtitle">Edit and listen to your library</p>
+			<br>
+
+			<section id="cards">
+				{{#each songs}}
+					<div class="card">
+						{{#if this.audioImageSrc}}
+							<div class="cardimg" style="background-image: url({{this.audioImageSrc}})">
+								<div class="overlay">
+									<p class="overlay-text">Play</p>
+								</div>
+							</div>
+						{{else}}
+							<div class="cardimg" style="background-image: url({{this.albumCoverSrc}})">
+								<div class="overlay">
+									<p class="overlay-text">Play</p>
+								</div>
+							</div>
+						{{/if}}
+						<h2>{{this.title}}</h2>
+						{{#if this.albumName}}
+							<p>Album: {{this.albumName}}</p>
+						{{else}}
+							<p> Album: (None)</p>
+						{{/if}}
+						<span class="play">
+							<img src="/images/play.png" />
+						</span>
+						<span class="watched">
+							<img src="/images/watched.png" title="Watched"/>
+						</span>
+						<span class="trash"><a href="/songs/delete/{{this.title}}">
+							<img src="/images/trash.png" />
+						</a></span>
+						<audio controls class="audiocontrols">
+							<source type="audio/mpeg" src={{this.audioSrc}} preload="auto">
+						</audio>
+					</div>
+				{{/each}}
+			</section>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+            function setOverlayDisplay(show) {
+                document.getElementById('overlay').style.display = show ? "block" : "none";
+            }
+
+            function clearForm() {
+                document.getElementById('addsong_title').value = "";
+                document.getElementById('addartist_name').value = "";
+                document.getElementById('addalbum_name').value = "";
+                document.getElementById('addalbumcover_src').value = "";
+                document.getElementById('addaudio_src').value = "";
+                document.getElementById('addimage_src').value = "";
+            }
+
+            function setLocation(url) {
+                window.location = url;
+            }
+    </script>
+
+
+	<footer>
+			<p>Michael Wang. Don't sue me. Copyright &copy; 2049</p>
+	</footer>
+
+	<div class="info-pane" style="display: none">
+    	<div class="preview-image"></div>
+    	<div class="preview-text">
+    		<h3>Hello Everybody!</h3>
+    		<p style="font-size:14px">Unfortunaely I couldn't figure out how to target the div the play button belonged to when creating the onclick handler so this display just doesn't work. You'll have to make do with the significantly less fancy audio controls above. Also for some reason you have to click twice before this display shows up for the first time. Don't know what's up with that.</p>
+    	</div>
+    </div>
+  </div>
+
+</body>
+</html>
